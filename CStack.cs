@@ -20,13 +20,16 @@ namespace Inlamning_3_ra_kod
      */
     public class CStack
     {
-        public double X, Y, Z, T, N;
-        public string entry, pressedButton, l;
-        public string path = "C:\\users\\ägare\\source\\repos\\Inlamning_3_ra_kod-master\\molkfreecalc.clc";
+        public double X, Y, Z, T;
+        public string entry, pressedButton;
+        public string path = 
+            "C:\\users\\ägare\\source\\repos\\Inlamning_3_ra_kod-master\\molkfreecalc.clc";
         public string[] fileContent;
-        public (string, double)[] letterVars = new (string, double)[8];
+        public (string, double)[] letterTuple = new (string, double)[8];
         /* CONSTRUCTOR: CStack
-         * PURPOSE: create a new stack and init X, Y, Z, T and the text entry
+         * PURPOSE: create a new stack and init X, Y, Z, T, the text entry and the tuple-array,
+         *          if there is a file in the correct filepath then X, Y, Z, T, 
+         *          and the tuple-array will get their numerical values from the file
          * PARAMETERS: --
          */
         public CStack()
@@ -48,35 +51,35 @@ namespace Inlamning_3_ra_kod
                     }
                     else
                     {
-                        letterVars[i - 4].Item2 = double.Parse(fileContent[i]);
+                        letterTuple[i - 4].Item2 = double.Parse(fileContent[i]);
                     }
-                    letterVars[0].Item1 = "A";
-                    letterVars[1].Item1 = "B";
-                    letterVars[2].Item1 = "C";
-                    letterVars[3].Item1 = "D";
-                    letterVars[4].Item1 = "E";
-                    letterVars[5].Item1 = "F";
-                    letterVars[6].Item1 = "G";
-                    letterVars[7].Item1 = "H";
+                    letterTuple[0].Item1 = "A";
+                    letterTuple[1].Item1 = "B";
+                    letterTuple[2].Item1 = "C";
+                    letterTuple[3].Item1 = "D";
+                    letterTuple[4].Item1 = "E";
+                    letterTuple[5].Item1 = "F";
+                    letterTuple[6].Item1 = "G";
+                    letterTuple[7].Item1 = "H";
                 }
             }
             else
             {
                 X = Y = Z = T = 0;
-                letterVars[0] = ("A", 0);
-                letterVars[1] = ("B", 0);
-                letterVars[2] = ("C", 0);
-                letterVars[3] = ("D", 0);
-                letterVars[4] = ("E", 0);
-                letterVars[5] = ("F", 0);
-                letterVars[6] = ("G", 0);
-                letterVars[7] = ("H", 0);
+                letterTuple[0] = ("A", 0);
+                letterTuple[1] = ("B", 0);
+                letterTuple[2] = ("C", 0);
+                letterTuple[3] = ("D", 0);
+                letterTuple[4] = ("E", 0);
+                letterTuple[5] = ("F", 0);
+                letterTuple[6] = ("G", 0);
+                letterTuple[7] = ("H", 0);
             }
             entry = "";
-
         }
         /* METHOD: Exit
-         * PURPOSE: called on exit, prepared for saving
+         * PURPOSE: called on exit, stores the values on X, Y, Z, T, A, B, C, D, E, F, G, H on a file, 
+         *          if there isn't a file one will be created by the program
          * PARAMETERS: --
          * RETURNS: --
          */
@@ -98,7 +101,7 @@ namespace Inlamning_3_ra_kod
                     }
                     else
                     {
-                        writer.WriteLine($"{letterVars[i - 4].Item2}");
+                        writer.WriteLine($"{letterTuple[i - 4].Item2}");
                     }
                 }
             }
@@ -116,18 +119,19 @@ namespace Inlamning_3_ra_kod
         /* METHOD: VarString
          * PURPOSE: construct a string to write out in a variable list
          * PARAMETERS: --
-         * RETURNS: NOT YET IMPLEMENTED
+         * RETURNS: the string containing the values A, B, C, D, E, F, G, H with newlines 
+         *   between them
          */
         public string VarString()
         {
-            string A = letterVars[0].Item2.ToString("0.##############");
-            string B = letterVars[1].Item2.ToString("0.##############");
-            string C = letterVars[2].Item2.ToString("0.##############");
-            string D = letterVars[3].Item2.ToString("0.##############");
-            string E = letterVars[4].Item2.ToString("0.##############");
-            string F = letterVars[5].Item2.ToString("0.##############");
-            string G = letterVars[6].Item2.ToString("0.##############");
-            string H = letterVars[7].Item2.ToString("0.##############");
+            string A = letterTuple[0].Item2.ToString("0.##############");
+            string B = letterTuple[1].Item2.ToString("0.##############");
+            string C = letterTuple[2].Item2.ToString("0.##############");
+            string D = letterTuple[3].Item2.ToString("0.##############");
+            string E = letterTuple[4].Item2.ToString("0.##############");
+            string F = letterTuple[5].Item2.ToString("0.##############");
+            string G = letterTuple[6].Item2.ToString("0.##############");
+            string H = letterTuple[7].Item2.ToString("0.##############");
             return $"{A}\n{B}\n{C}\n{D}\n{E}\n{F}\n{G}\n{H}";
         }
         /* METHOD: SetX
@@ -314,44 +318,44 @@ namespace Inlamning_3_ra_kod
             T = Z; Z = Y; Y = X; X = newX;
         }
         /* METHOD: SetAddress
-         * PURPOSE: 
+         * PURPOSE: Stores the name of the pressed variable-button (A to H) in a public string
          * PARAMETERS: string name - variable name
          * RETURNS: --
-         * FEATURES: NOT YET IMPLEMENTED
+         * FEATURES: --
          */
         public void SetAddress(string name)
         {
             pressedButton = name;
         }
         /* METHOD: SetVar
-         * PURPOSE: 
+         * PURPOSE: Stores the value of X in the variable (A to H) that the user pressed      
          * PARAMETERS: --
          * RETURNS: --
-         * FEATURES: NOT YET IMPLEMENTED
+         * FEATURES: If no variable-button is pressed then nothing is stored
          */
         public void SetVar()
         {
             for (int i = 0; i < 8; i++)
             {
-                if (pressedButton == letterVars[i].Item1)
+                if (pressedButton == letterTuple[i].Item1)
                 {
-                    letterVars[i].Item2 = X;
+                    letterTuple[i].Item2 = X;
                 }
             }
         }
         /* METHOD: GetVar
-         * PURPOSE: 
+         * PURPOSE: Recalls the value from the pressed variable-button (A to H) to X
          * PARAMETERS: --
          * RETURNS: --
-         * FEATURES: NOT YET IMPLEMENTED
+         * FEATURES: If no variable-button is pressed then nothing is recalled
          */
         public void GetVar()
         {
             for (int i = 0; i < 8; i++)
             {
-                if (pressedButton == letterVars[i].Item1)
+                if (pressedButton == letterTuple[i].Item1)
                 {
-                    double tempX = letterVars[i].Item2;
+                    double tempX = letterTuple[i].Item2;
                     RollSetX(tempX);
                 }
             }
