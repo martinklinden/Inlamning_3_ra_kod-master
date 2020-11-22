@@ -34,29 +34,44 @@ namespace Inlamning_3_ra_kod
             if (File.Exists(path))
             {
                 fileContent = File.ReadAllLines(path);
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 12; i++)
                 {
-                    switch (i)
+                    if (i < 4)
                     {
-                        case 0: X = double.Parse(fileContent[i]); break;
-                        case 1: Y = double.Parse(fileContent[i]); break;
-                        case 2: Z = double.Parse(fileContent[i]); break;
-                        case 3: T = double.Parse(fileContent[i]); break;
+                        switch (i)
+                        {
+                            case 0: X = double.Parse(fileContent[i]); break;
+                            case 1: Y = double.Parse(fileContent[i]); break;
+                            case 2: Z = double.Parse(fileContent[i]); break;
+                            case 3: T = double.Parse(fileContent[i]); break;
+                        }
                     }
+                    else
+                    {
+                        letterVars[i - 4].Item2 = double.Parse(fileContent[i]);
+                    }
+                    letterVars[0].Item1 = "A";
+                    letterVars[1].Item1 = "B";
+                    letterVars[2].Item1 = "C";
+                    letterVars[3].Item1 = "D";
+                    letterVars[4].Item1 = "E";
+                    letterVars[5].Item1 = "F";
+                    letterVars[6].Item1 = "G";
+                    letterVars[7].Item1 = "H";
                 }
             }
             else
             {
                 X = Y = Z = T = 0;
+                letterVars[0] = ("A", 0);
+                letterVars[1] = ("B", 0);
+                letterVars[2] = ("C", 0);
+                letterVars[3] = ("D", 0);
+                letterVars[4] = ("E", 0);
+                letterVars[5] = ("F", 0);
+                letterVars[6] = ("G", 0);
+                letterVars[7] = ("H", 0);
             }
-            letterVars[0] = ("A", 0);
-            letterVars[1] = ("B", 0);
-            letterVars[2] = ("C", 0);
-            letterVars[3] = ("D", 0);
-            letterVars[4] = ("E", 0);
-            letterVars[5] = ("F", 0);
-            letterVars[6] = ("G", 0);
-            letterVars[7] = ("H", 0);
             entry = "";
 
         }
@@ -69,14 +84,21 @@ namespace Inlamning_3_ra_kod
         {
             using (StreamWriter writer = new StreamWriter(path))
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 12; i++)
                 {
-                    switch (i)
+                    if (i < 4)
                     {
-                        case 0: writer.WriteLine($"{X}"); break;
-                        case 1: writer.WriteLine($"{Y}"); break;
-                        case 2: writer.WriteLine($"{Z}"); break;
-                        case 3: writer.WriteLine($"{T}"); break;
+                        switch (i)
+                        {
+                            case 0: writer.WriteLine($"{X}"); break;
+                            case 1: writer.WriteLine($"{Y}"); break;
+                            case 2: writer.WriteLine($"{Z}"); break;
+                            case 3: writer.WriteLine($"{T}"); break;
+                        }
+                    }
+                    else
+                    {
+                        writer.WriteLine($"{letterVars[i - 4].Item2}");
                     }
                 }
             }
