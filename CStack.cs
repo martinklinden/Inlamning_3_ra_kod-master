@@ -67,7 +67,19 @@ namespace Inlamning_3_ra_kod
          */
         public void Exit()
         {
-
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    switch (i)
+                    {
+                        case 0: writer.WriteLine($"{X}"); break;
+                        case 1: writer.WriteLine($"{Y}"); break;
+                        case 2: writer.WriteLine($"{Z}"); break;
+                        case 3: writer.WriteLine($"{T}"); break;
+                    }
+                }
+            }
         }
         /* METHOD: StackString
          * PURPOSE: construct a string to write out in a stack view
@@ -297,7 +309,7 @@ namespace Inlamning_3_ra_kod
          */
         public void SetVar()
         {
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 if (pressedButton == letterVars[i].Item1)
                 {
